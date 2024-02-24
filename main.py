@@ -105,7 +105,7 @@ def menu():
             input("Tekan enter untuk melanjutkan...")
         
         elif pilihan == 5:
-            print("Terima Kasih Sudah Menggunakan Program Ini.)
+            print("Terima Kasih Sudah Menggunakan Program Ini.")
             break
 
 menu()
