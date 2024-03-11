@@ -109,7 +109,7 @@ class ManajemenKeyboard():
                 current = current.next
             print(f"Keyboard dengan ID {idKeyboard} tidak ditemukan.")
     
-    def quickSortId(self):
+    def quickSortId(self, descending = False):
         if self.head is None:
             print("Daftar Keyboard Kosong.")
             return
@@ -119,7 +119,7 @@ class ManajemenKeyboard():
             while current:
                 daftarIdKeyboard.append(current.idKeyboard)
                 current = current.next
-            daftarIdKeyboardSorted = self.quickSort(daftarIdKeyboard)
+            daftarIdKeyboardSorted = self.quickSort(daftarIdKeyboard, descending)
             print("")
             print("ID Keyboard setelah diurutkan:")
             print("")
@@ -139,7 +139,7 @@ class ManajemenKeyboard():
                     current = current.next
             return daftarIdKeyboardSorted
 
-    def quickSortNama(self):
+    def quickSortNama(self, descending = False):
         if self.head is None:
             print("Daftar Keyboard Kosong.")
             return
@@ -149,7 +149,7 @@ class ManajemenKeyboard():
             while current:
                 daftarNamaKeyboard.append(current.namaKeyboard)
                 current = current.next
-            daftarNamaKeyboardSorted = self.quickSort(daftarNamaKeyboard)
+            daftarNamaKeyboardSorted = self.quickSort(daftarNamaKeyboard, descending)
             print("")
             print("ID Keyboard setelah diurutkan:")
             print("")
@@ -169,14 +169,19 @@ class ManajemenKeyboard():
                     current = current.next
             return daftarNamaKeyboardSorted
         
-    def quickSort(self, daftar):
+    def quickSort(self, daftar, descending = False):
         if len(daftar) <= 1:
             return daftar
         pivot = daftar[len(daftar) // 2]
-        left = [x for x in daftar if x < pivot]
+        if descending:  # Memperbaiki logika untuk descending
+            left = [x for x in daftar if x > pivot]
+            right = [x for x in daftar if x < pivot]
+        else:  # Memperbaiki logika untuk ascending
+            left = [x for x in daftar if x < pivot]
+            right = [x for x in daftar if x > pivot]
         middle = [x for x in daftar if x == pivot]
-        right = [x for x in daftar if x > pivot]
-        return self.quickSort(left) + middle + self.quickSort(right)
+        return self.quickSort(left, descending) + middle + self.quickSort(right, descending)
+
 
 global manajemenKeyboardobj
 manajemenKeyboardobj = ManajemenKeyboard()
@@ -208,6 +213,8 @@ def menu():
             elif pilihan == 5:
                 urutkanKeyboard()      
             elif pilihan == 6:
+                clear()
+                print("Terima Kasih Telah Menggunakan Program Ini")
                 break
             else:
                 print("Pilihan tidak ada.")
@@ -425,17 +432,25 @@ def hapusKeyboard():
 
 def urutkanKeyboard():
     clear()
-    print("+=========================+")
-    print("| [1]. Berdasarkan ID     |")
-    print("| [2]. Berdasarkan Nama   |")
-    print("+=========================+")
+    print("+======================================+")
+    print("| [1]. Berdasarkan ID [Ascending]      |")
+    print("| [2]. Berdasarkan ID [Descending]     |")
+    print("| [3]. Berdasarkan Nama [Ascending]    |")
+    print("| [4]. Berdasarkan Nama [Descending]   |")
+    print("+======================================+")
     try:
         pilihan = int(input("Masukkan Pilihan [1/2]: "))
         if pilihan == 1:
             manajemenKeyboardobj.quickSortId()
             input("Tekan enter untuk melanjutkan...")
         elif pilihan == 2:
+            manajemenKeyboardobj.quickSortNama(descending = True)
+            input("Tekan enter untuk melanjutkan...")
+        elif pilihan == 3:
             manajemenKeyboardobj.quickSortNama()
+            input("Tekan enter untuk melanjutkan...")
+        elif pilihan == 4:
+            manajemenKeyboardobj.quickSortNama(descending = True)
             input("Tekan enter untuk melanjutkan...")
         else:
             print("Pilihan Tidak Ada.")
